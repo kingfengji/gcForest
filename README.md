@@ -16,7 +16,7 @@ Reference: [1] Z.-H. Zhou and J. Feng. Deep Forest: Towards an Alternative to De
 Requirements: This package is developed with Python 2.7, please make sure all the dependencies are installed,     
 which is specified in requirements.txt                                                                            
 
-ATTN: This package was developed by Mr.Ji Feng(fengj@lamda.nju.edu.cn).For any problem concerning the codes, please feel free to contact Mr.Feng.  
+ATTN: This package was developed and maintained by Mr.Ji Feng(http://lamda.nju.edu.cn/fengj/).For any problem concerning the codes, please feel free to contact Mr.Feng.（fengj@lamda.nju.edu.cn)  or open some issues here.
 
 
 package dependencies
