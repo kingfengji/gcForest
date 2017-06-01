@@ -1,0 +1,46 @@
+//Description: A python 2.7 implementation of gcForest proposed in [1]. A demo implementation of gcForest library as well as some demo client scripts to demostrate how to use the code. The implementation is flexible enough for modifying the model or
+//fit your own datasets. 
+//Reference: [1] Z.-H. Zhou and J. Feng. Deep Forest: Towards an Alternative to Deep Neural Networks. In IJCAI-2017.  (https://arxiv.org/abs/1702.08835v2 )
+//Requirements: This package is developed with Python 2.7, please make sure all the demendencies are installed, which is specified in requirements.txt
+//ATTN: This package is free for academic usage. You can run it at your own risk. For other purposes, please contact Prof. Zhi-Hua Zhou(zhouzh@lamda.nju.edu.cn)
+//ATTN2: This package was developed by Mr.Ji Feng(fengj@lamda.nju.edu.cn). The readme file and demo roughly explains how to use the codes. For any problem concerning the codes, please feel free to contact Mr.Feng. 
+
+{
+"dataset": {
+    "train": {
+        "type": "ds_pickle2",
+        "data_path": "/storage/root/gcforest/cifar10/fg-tree500-depth100-3folds/datas/train/outputs.pkl",
+        "X_keys": ["pool1/8x8/ets", "pool1/8x8/rf", "pool1/11x11/ets", "pool1/11x11/rf", "pool1/16x16/ets", "pool1/16x16/rf"]
+    },
+    "test": {
+        "type": "ds_pickle2", 
+        "data_path": "/storage/root/gcforest/cifar10/fg-tree500-depth100-3folds/datas/test/outputs.pkl",
+        "X_keys": ["pool1/8x8/ets", "pool1/8x8/rf", "pool1/11x11/ets", "pool1/11x11/rf", "pool1/16x16/ets", "pool1/16x16/rf"]
+    }
+},
+"cascade": {
+    "random_state": 0,
+    "max_layers": 100,
+    "early_stopping_rounds": 8,
+    "look_indexs_cycle": [
+        [0, 1],
+        [2, 3],
+        [4, 5],
+        [6, 7],
+        [0, 1, 2, 3, 4, 5, 6, 7]
+    ],
+    "n_classes": 10,
+    "estimators": [
+        {"n_folds":3,"type":"ExtraTreesClassifier","n_estimators":1000,"max_depth":null,"n_jobs":-1,"max_features":1},
+        {"n_folds":3,"type":"ExtraTreesClassifier","n_estimators":1000,"max_depth":null,"n_jobs":-1,"max_features":1},
+        {"n_folds":3,"type":"ExtraTreesClassifier","n_estimators":1000,"max_depth":null,"n_jobs":-1,"max_features":1},
+        {"n_folds":3,"type":"ExtraTreesClassifier","n_estimators":1000,"max_depth":null,"n_jobs":-1,"max_features":1},
+        {"n_folds":3,"type":"RandomForestClassifier","n_estimators":1000,"max_depth":null,"n_jobs":-1},
+        {"n_folds":3,"type":"RandomForestClassifier","n_estimators":1000,"max_depth":null,"n_jobs":-1},
+        {"n_folds":3,"type":"RandomForestClassifier","n_estimators":1000,"max_depth":null,"n_jobs":-1},
+        {"n_folds":3,"type":"RandomForestClassifier","n_estimators":1000,"max_depth":null,"n_jobs":-1}
+    ],
+    "data_save_dir": "/storage/root/gcforest/cifar10/fg-tree500-depth100-3folds/cascade/datas",
+    "data_save_rounds": 5
+}
+}
