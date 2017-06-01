@@ -21,7 +21,7 @@ ATTN: This package was developed and maintained by Mr.Ji Feng(http://lamda.nju.e
 
 package dependencies
 ========
-The package is developed in python 2.7
+The package is developed in python 2.7, higher version of python is not suggested for the current version.
 
 run the following command to install dependencies before running the code:
 ```pip install -r requirements.txt```
