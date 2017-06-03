@@ -1,6 +1,6 @@
 gcForest v1.0
 ========
-This is the official clone for the implementation of gcForest.
+This is the official clone for the implementation of gcForest.(The University's webserver is unstable sometimes, therefore we put the official clone here at github)
 
 Package Official Website: http://lamda.nju.edu.cn/code_gcForest.ashx
 
