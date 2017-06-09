@@ -19,12 +19,23 @@ which is specified in requirements.txt
 ATTN: This package was developed and maintained by Mr.Ji Feng(http://lamda.nju.edu.cn/fengj/) .For any problem concerning the codes, please feel free to contact Mr.Feng.（fengj@lamda.nju.edu.cn)  or open some issues here.
 
 
+News For the Next Version ( Version 1.1)
+========
+In the next version, wrappers like
+```model.fit()  model.predict()```
+will be supported.
+
+Please stay tuned.
+
+
+
 package dependencies
 ========
 The package is developed in python 2.7, higher version of python is not suggested for the current version.
 
 run the following command to install dependencies before running the code:
 ```pip install -r requirements.txt```
+
 
 
 
