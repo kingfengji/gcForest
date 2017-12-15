@@ -13,6 +13,17 @@ from .utils.log_utils import get_logger
 
 LOGGER = get_logger('gcforest.exp_utils')
 
+def load_model_config(model_path, log_name=None):
+    import json
+    from .utils.config_utils import load_json
+    config = load_json(model_path)
+    if log_name is not None:
+        logger = get_logger(log_name)
+        logger.info(log_name)
+        logger.info("\n" + json.dumps(config, sort_keys=True, indent=4, separators=(',', ':')))
+    return config
+
+
 def concat_datas(datas):
     if type(datas) != list:
         return datas

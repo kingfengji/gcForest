@@ -50,3 +50,25 @@ class GCRandomForestClassifier(SKlearnBaseClassifier):
     
     def _default_predict_batch_size(self, clf, X):
         return forest_predict_batch_size(clf, X)
+
+
+class GCLR(SKlearnBaseClassifier):
+    def __init__(self,name,kwargs):
+        from sklearn.linear_model import LogisticRegression
+        super(GCLR,self).__init__(name,LogisticRegression,kwargs)
+
+
+class GCSGDClassifier(SKlearnBaseClassifier):
+    def __init__(self,name,kwargs):
+        from sklearn.linear_model import SGDClassifier
+        super(GCSGDClassifier,self).__init__(name,SGDClassifier,kwargs)
+
+
+class GCXGBClassifier(SKlearnBaseClassifier):
+    def __init__(self,name,kwargs):
+        import xgboost as xgb
+        kwargs = kwargs.copy()
+        if "random_state" in kwargs:
+            kwargs["seed"] = kwargs["random_state"]
+            kwargs.pop("random_state")
+        super(GCXGBClassifier,self).__init__(name,xgb.XGBClassifier,kwargs)

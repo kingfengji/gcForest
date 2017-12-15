@@ -48,7 +48,8 @@ class FGWinLayer(BaseLayer):
         #assert(self.cv_policy in CV_POLICYS)
         assert len(self.bottom_names) >= 2
         assert len(self.est_configs) == len(self.top_names), "Each estimator shoud produce one unique top"
-        self.eval_metrics = [("predict", accuracy_pb), ("vote", accuracy_win_vote), ("avg", accuracy_win_avg)]
+        # self.eval_metrics = [("predict", accuracy_pb), ("vote", accuracy_win_vote), ("avg", accuracy_win_avg)]
+        self.eval_metrics = [("predict", accuracy_pb), ("avg", accuracy_win_avg)]
         self.estimator1d = [None for ei in range(len(self.est_configs))]
 
     def _init_estimators(self, ei, random_state):
@@ -70,7 +71,7 @@ class FGWinLayer(BaseLayer):
 
     def fit_transform(self, train_config):
         LOGGER.info("[data][{}], bottoms={}, tops={}".format(self.name, self.bottom_names, self.top_names))
-        phases = ["train", "test"]
+        phases = train_config.phases
         X_train_win, y_train_win = None, None
         test_sets = None
 
@@ -111,9 +112,28 @@ class FGWinLayer(BaseLayer):
                 self.data_cache.update(phase, self.top_names[ti], y_proba)
             if train_config.keep_model_in_mem:
                 self.estimator1d[ti] = est
+    
+    def transform(self):
+        phase = "test"
+        for ti, top_name in enumerate(self.top_names):
+            LOGGER.info("[progress][{}] ti={}/{}, top_name={}".format(self.name, ti, len(self.top_names), top_name))
+
+            bottoms = self.data_cache.gets(phase, self.bottom_names[:-1])
+            LOGGER.info('[data][{},{}] bottoms.shape={}'.format(self.name, phase, repr_blobs_shape(bottoms)))
+            X = np.concatenate(bottoms, axis=1)
+            # n x n_windows x channel
+            X_win = get_windows(X, self.win_x, self.win_y, self.stride_x, self.stride_y, self.pad_x, self.pad_y)
+            _, nh, nw, _ = X_win.shape
+            X_win = X_win.reshape((X_win.shape[0], -1, X_win.shape[-1]))
+
+            est = self.estimator1d[ti]
+            y_proba = est.predict_proba(X_win)
+            y_proba = y_proba.reshape((-1, nh, nw, self.n_classes)).transpose((0, 3, 1, 2))
+            LOGGER.info('[data][{},{}] tops[{}].shape={}'.format(self.name, phase, ti, y_proba.shape))
+            self.data_cache.update(phase, self.top_names[ti], y_proba)
 
     def score(self):
-        eval_metrics = [("predict", accuracy_pb), ("vote", accuracy_win_vote), ("avg", accuracy_win_avg)]
+        eval_metrics = [("predict", accuracy_pb), ("avg", accuracy_win_avg)]
         for ti, top_name in enumerate(self.top_names):
             for phase in ["train", "test"]:
                 y = self.data_cache.get(phase, self.bottom_names[-1])

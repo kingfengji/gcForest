@@ -7,10 +7,10 @@ Requirements: This package is developed with Python 2.7, please make sure all th
 ATTN: This package is free for academic usage. You can run it at your own risk. For other purposes, please contact Prof. Zhi-Hua Zhou(zhouzh@lamda.nju.edu.cn)
 ATTN2: This package was developed by Mr.Ji Feng(fengj@lamda.nju.edu.cn). The readme file and demo roughly explains how to use the codes. For any problem concerning the codes, please feel free to contact Mr.Feng. 
 """
+import numpy as np
 import os, os.path as osp
 import json
 
-from .data_cache import DataCache
 from .layers import get_layer
 from .utils.log_utils import get_logger
 
@@ -48,9 +48,25 @@ class FGNet(object):
         LOGGER.info("X_train.shape={}, y_train.shape={}, X_test.shape={}, y_test.shape={}".format(
             X_train.shape, y_train.shape, None if X_test is None else X_test.shape, None if y_test is None else y_test.shape))
         self.update_xy("train", X_train, y_train)
-        self.update_xy("test", X_test, y_test)
+        if "test" in train_config.phases:
+            self.update_xy("test", X_test, y_test)
         for li, layer in enumerate(self.layers):
             layer.fit_transform(train_config)
+
+    @staticmethod
+    def concat_datas(datas):
+        if type(datas) != list:
+            return datas
+        for i, data in enumerate(datas):
+            datas[i] = data.reshape((data.shape[0], -1))
+        return np.concatenate(datas, axis=1)
+
+    def transform(self, X_test):
+        LOGGER.info("X_test.shape={}".format(X_test.shape))
+        self.data_cache.update("test", "X", X_test)
+        for li, layer in enumerate(self.layers):
+            layer.transform()
+        return self.get_outputs("test")
 
     def score(self):
         for li, layer in enumerate(self.layers):
@@ -125,23 +141,3 @@ class FGNet(object):
                 top = layer_config["tops"][0]
                 if top != layer_config["name"]:
                     LOGGER.warn("layer_name != top_name, You should check to make sure this is what you want!!! layer_config={}".format(layer_config))
-
-def strip(s):
-    if s is None: return None
-    s = s.strip()
-    if len(s) == 0:
-        return None
-    return s
-
-class FGTrainConfig(object):
-    def __init__(self, train_config):
-        self.keep_model_in_mem = train_config.get("keep_model_in_mem", 0)
-        self.random_state = train_config.get("random_state", 0)
-        self.model_cache_dir = strip(train_config.get("model_cache_dir", None))
-        self.data_cache = DataCache(train_config["data_cache"])
-          
-        for data_name in ("X", "y"):
-            if not data_name in self.data_cache.config["keep_in_mem"]:
-                self.data_cache.config["keep_in_mem"][data_name] = 1
-            if not data_name in self.data_cache.config["cache_in_disk"]:
-                self.data_cache.config["cache_in_disk"][data_name] = 0

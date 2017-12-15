@@ -56,5 +56,8 @@ class BaseLayer(object):
     def fit_transform(self, train_config):
         raise NotImplementedError()
 
+    def transform(self):
+        raise NotImplementedError()
+
     def score(self):
         pass

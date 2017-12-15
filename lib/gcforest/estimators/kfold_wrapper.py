@@ -128,7 +128,7 @@ class KFoldWrapper(object):
         for y_proba in y_probas[1:]:
             y_proba /= self.n_folds
         # log
-        self.log_eval_metrics(self.name, y, y_probas[0], eval_metrics, "train")
+        self.log_eval_metrics(self.name, y, y_probas[0], eval_metrics, "train_cv")
         for vi, (test_name, X_test, y_test) in enumerate(test_sets):
             if y_test is not None:
                 self.log_eval_metrics(self.name, y_test, y_probas[vi + 1], eval_metrics, test_name)
@@ -145,31 +145,19 @@ class KFoldWrapper(object):
             accuracy = eval_metric(y_true, y_proba)
             LOGGER.info("Accuracy({}.{}.{})={:.2f}%".format(est_name, y_name, eval_name, accuracy * 100.))
 
-    def predict_proba(self):
-        ## check top cache
-        #top = self.data_cache.get(phase, top_name, ignore_no_exist=True)
-        #if top is not None:
-        #    LOGGER.info("[data] top cache exists, skip process. tops[ti].shape={}".format(top.shape))
-        #    return
-        ## init X
-        #if X is None:
-        #    bottoms = self.data_cache.gets(phase, self.bottom_names[:-1])
-        #    LOGGER.info('[data] name={}, bottoms.shape={}'.format(self.name, repr_blobs_shape(bottoms)))
-        #    X = np.concatenate(bottoms, axis=1)
-        #    n, c, h, w = X.shape
-        #    X, nh, nw = get_windows(X, self.win_x, self.win_y, self.stride_x, self.stride_y, self.pad_x, self.pad_y)
-
-        ## predict
-        #estimator1d = self.estimator2d[ti]
-        #y_proba_cv = None
-        #for k, est in enumerate(estimator1d):
-        #    model_cache_path = self.model_cache_path("{}-cv_{}_{}".format(top_name, k, self.n_folds))
-        #    y_proba = est.predict_proba(X, model_cache_path)
-        #    if y_proba_cv is None:
-        #        y_proba_cv = y_proba
-        #    else:
-        #        y_proba_cv += y_proba
-        #y_proba_cv /= self.n_folds
-        #y_proba_cv = y_proba_cv.reshape((n, nh, nw, self.n_classes)).transpose((0, 3, 1, 2))
-        #return y_proba_cv
-        pass
+    def predict_proba(self, X_test):
+        assert 2 <= len(X_test.shape) <= 3, "X_test.shape should be n x k or n x n2 x k"
+        # K-Fold split
+        n_dims = X_test.shape[-1]
+        n_datas = X_test.size / n_dims
+        for k in range(self.n_folds):
+            est = self.estimator1d[k]
+            y_proba = est.predict_proba(X_test.reshape((-1, n_dims)), cache_dir=None)
+            if len(X_test.shape) == 3:
+                y_proba = y_proba.reshape((X_test.shape[0], X_test.shape[1], y_proba.shape[-1]))
+            if k == 0:
+                y_proba_kfolds = y_proba
+            else:
+                y_proba_kfolds += y_proba
+        y_proba_kfolds /= self.n_folds
+        return y_proba_kfolds

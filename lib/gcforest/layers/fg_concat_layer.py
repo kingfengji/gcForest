@@ -27,7 +27,11 @@ class FGConcatLayer(BaseLayer):
 
     def fit_transform(self, train_config):
         LOGGER.info("[data][{}] bottoms={}, tops={}".format(self.name, self.bottom_names, self.top_names))
-        self._transform(["train", "test"])
+        self._transform(train_config.phases)
+
+    def transform(self):
+        LOGGER.info("[data][{}] bottoms={}, tops={}".format(self.name, self.bottom_names, self.top_names))
+        self._transform(["test"])
 
     def _transform(self, phases):
         """
