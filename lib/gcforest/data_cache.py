@@ -116,3 +116,10 @@ class DataCache(object):
             LOGGER.info("Updating data ({}->{}, shape={}) in disk: {}".format(phase, data_name, data.shape, data_path))
             check_dir(data_path);
             np.save(data_path, data)
+
+    def reset(self, phase, X, y):
+        self.datas[phase].clear()
+        if X is not None:
+            self.update(phase, "X", X)
+        if y is not None:
+            self.update(phase, "y", y)

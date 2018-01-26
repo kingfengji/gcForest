@@ -69,7 +69,8 @@ class CascadeClassifier(object):
         self.est_configs = self.get_value("estimators", None, list, required=True)
         self.look_indexs_cycle = self.get_value("look_indexs_cycle", None, list)
         self.random_state = self.get_value("random_state", None, int)
-        self.data_save_dir = self.get_value("data_save_dir", None, basestring)
+        # self.data_save_dir = self.get_value("data_save_dir", None, basestring)
+        self.data_save_dir = ca_config.get("data_save_dir", None)
         self.data_save_rounds = self.get_value("data_save_rounds", 0, int)
         if self.data_save_rounds > 0:
             assert self.data_save_dir is not None, "data_save_dir should not be null when data_save_rounds>0"

@@ -86,7 +86,7 @@ if __name__ == "__main__":
     X_train_enc = np.hstack((X_train_origin, X_train_enc))
     X_test_enc = np.hstack((X_test_origin, X_test_enc))
     print("X_train_enc.shape={}, X_test_enc.shape={}".format(X_train_enc.shape, X_test_enc.shape))
-    clf = RandomForestClassifier(n_estimators=1000, max_depth=None)
+    clf = RandomForestClassifier(n_estimators=1000, max_depth=None, n_jobs=-1)
     clf.fit(X_train_enc, y_train)
     y_pred = clf.predict(X_test_enc)
     acc = accuracy_score(y_test, y_pred)

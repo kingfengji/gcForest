@@ -47,9 +47,9 @@ class FGNet(object):
         """
         LOGGER.info("X_train.shape={}, y_train.shape={}, X_test.shape={}, y_test.shape={}".format(
             X_train.shape, y_train.shape, None if X_test is None else X_test.shape, None if y_test is None else y_test.shape))
-        self.update_xy("train", X_train, y_train)
+        self.data_cache.reset("train", X_train, y_train)
         if "test" in train_config.phases:
-            self.update_xy("test", X_test, y_test)
+            self.data_cache.reset("test", X_test, y_test)
         for li, layer in enumerate(self.layers):
             layer.fit_transform(train_config)
 
@@ -63,7 +63,7 @@ class FGNet(object):
 
     def transform(self, X_test):
         LOGGER.info("X_test.shape={}".format(X_test.shape))
-        self.data_cache.update("test", "X", X_test)
+        self.data_cache.reset("test", X_test, None)
         for li, layer in enumerate(self.layers):
             layer.transform()
         return self.get_outputs("test")
@@ -71,10 +71,6 @@ class FGNet(object):
     def score(self):
         for li, layer in enumerate(self.layers):
             layer.score()
-
-    def update_xy(self, phase, X, y):
-        self.data_cache.update(phase, "X", X)
-        self.data_cache.update(phase, "y", y)
 
     def get_outputs(self, phase):
         outputs = self.data_cache.gets(phase, self.outputs)

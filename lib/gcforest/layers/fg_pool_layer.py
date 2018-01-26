@@ -28,18 +28,18 @@ class FGPoolLayer(BaseLayer):
 
     def fit_transform(self, train_config):
         LOGGER.info("[data][{}] bottoms={}, tops={}".format(self.name, self.bottom_names, self.top_names))
-        self._transform(train_config.phases)
+        self._transform(train_config.phases, True)
 
     def transform(self):
         LOGGER.info("[data][{}] bottoms={}, tops={}".format(self.name, self.bottom_names, self.top_names))
-        self._transform(["test"])
+        self._transform(["test"], False)
 
-    def _transform(self, phases):
+    def _transform(self, phases, check_top_cache):
         for ti, top_name in enumerate(self.top_names):
             LOGGER.info("[progress][{}] ti={}/{}, top_name={}".format(ti, self.name, len(self.top_names), top_name))
             for phase in phases:
                 # check top cache
-                if self.check_top_cache([phase], ti)[0]:
+                if check_top_cache and self.check_top_cache([phase], ti)[0]:
                     continue
                 X = self.data_cache.get(phase, self.bottom_names[ti])
                 LOGGER.info('[data][{},{}] bottoms[{}].shape={}'.format(self.name, phase, ti, X.shape))
