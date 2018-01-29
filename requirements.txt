@@ -6,3 +6,4 @@ scikit-learn>=0.18.1
 scipy
 simplejson
 tensorflow
+xgboost
