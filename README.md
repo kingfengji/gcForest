@@ -1,4 +1,4 @@
-gcForest v1.1 Is Here!
+gcForest v1.1.1 Is Here!
 ========
 This is the official clone for the implementation of gcForest.(The University's webserver is unstable sometimes, therefore we put the official clone here at github)
 
@@ -28,6 +28,7 @@ What's NEW:
 * Some more detailed examples
 * GPU support if you want to use xgboost as base estimators
 
+v1.1.1 Bug Fixed : When doing multiple predictions for the same model, the result will be consistant if you are using pooling layer. The bug only occurs for the scikit-learn APIs and now it is OK for the new api also.
 
 
 
