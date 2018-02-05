@@ -181,6 +181,8 @@ class CascadeClassifier(object):
         else:
             X_test = np.zeros((0, X_train.shape[1]))
         LOGGER.info("group_dims={}".format(group_dims))
+        LOGGER.info("group_starts={}".format(group_starts))
+        LOGGER.info("group_ends={}".format(group_ends))
         LOGGER.info("X_train.shape={},X_test.shape={}".format(X_train.shape, X_test.shape))
 
         n_trains = X_groups_train[0].shape[0]
