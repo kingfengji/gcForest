@@ -139,7 +139,7 @@ class CascadeClassifier(object):
             X_group = X_group.reshape(n_datas, -1)
             if is_fit:
                 group_dims.append( X_group.shape[1] )
-                group_starts.append(i if i == 0 else group_starts[i - 1] + group_dims[i])
+                group_starts.append(0 if i == 0 else group_ends[i - 1])
                 group_ends.append(group_starts[i] + group_dims[i])
             else:
                 assert(X_group.shape[1] == group_dims[i])
