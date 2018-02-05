@@ -135,6 +135,8 @@ class CascadeClassifier(object):
             group_ends.append(group_starts[i] + group_dims[i])
             X_train = np.hstack((X_train, X_group))
         LOGGER.info("group_dims={}".format(group_dims))
+        LOGGER.info("group_starts={}".format(group_starts))
+        LOGGER.info("group_ends={}".format(group_ends))
         for i, X_group in enumerate(X_groups_test):
             assert(X_group.shape[0] == n_tests)
             X_group = X_group.reshape(n_tests, -1)
