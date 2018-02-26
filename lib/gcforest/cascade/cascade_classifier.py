@@ -260,7 +260,7 @@ class CascadeClassifier(object):
                         self.save_data( data_save_dir, opt_layer_id, *opt_datas)
                     # remove unused model
                     if train_config.keep_model_in_mem:
-                        for li in xrange(opt_layer_id + 1, layer_id + 1):
+                        for li in range(opt_layer_id + 1, layer_id + 1):
                             for ei, est_config in enumerate(self.est_configs):
                                 self._set_estimator(li, ei, None)
                     self.opt_layer_num = opt_layer_id + 1
