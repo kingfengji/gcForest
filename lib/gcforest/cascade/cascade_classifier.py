@@ -273,7 +273,7 @@ class CascadeClassifier(object):
             LOGGER.info("[Result][Reach Max Layer] opt_layer_num={}, accuracy_train={:.2f}%, accuracy_test={:.2f}%".format(
                 opt_layer_id + 1, train_acc_list[opt_layer_id], test_acc_list[opt_layer_id]))
             if data_save_dir is not None:
-                self.save_data( self.max_layers - 1, *opt_datas)
+                self.save_data(data_save_dir, self.max_layers - 1, *opt_datas)
             self.opt_layer_num = self.max_layers
             return self.max_layers, opt_datas[0], opt_datas[1], opt_datas[2], opt_datas[3]
         except KeyboardInterrupt:

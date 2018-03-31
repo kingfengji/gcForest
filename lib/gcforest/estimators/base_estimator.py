@@ -58,8 +58,7 @@ class BaseClassifierWrapper(object):
             # saved in disk
             LOGGER.info("Save estimator to {} ...".format(cache_path))
             check_dir(cache_path); 
-            self._save_model_to_disk(self.est, cache_path)
-            self.est = None
+            self._save_model_to_disk(est, cache_path)
         else:
             # keep in memory
             self.est = est
