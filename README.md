@@ -50,6 +50,13 @@ y_pred = gc.predict(X_test)
 And that's it. Please see ```/examples/demo_mnist.py``` for a detailed useage.
 
 
+
+For order versons AND some more model configs reported in the original paper, please refer:
+
+* [v1.0](https://github.com/kingfengji/gcforest/tree/v1.0)
+
+
+
 Supported Based Classifier
 =====================
 The based classifiers inside gcForest can be any classifiers. This library support the following ones:
