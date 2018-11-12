@@ -42,14 +42,14 @@ def get_config_value(config, key, default_value, value_types, required=False, co
     value = config[key]
     # value type check
     if value is not None:
-        value_type_match = True
+        value_type_match = False
         if value_types is None:
             value_types = []
         elif not isinstance(value_types, list):
             value_types = [value_types]
         for value_type in value_types:
-            if not isinstance(value, value_type):
-                value_type_match = False
+            if isinstance(value, value_type):
+                value_type_match = True
                 break
         if not value_type_match:
             raise ValueError("{}config={}, Value type not matched!!! key={}, value={}, value_types={}".format(
