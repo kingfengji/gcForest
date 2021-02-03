@@ -1,14 +1,13 @@
-Update
-======
+Update (Feb 1, 2021)
+====================
 
-We now have a version of Deep Forest optimized for speed and memory efficiency. You can install it using:
+This repository is no longer maintained, please check our new repository that implements a version of Deep Forest optimized for speed and memory efficiency.
 
-```python
-pip install deep-forest
-```
+* Repository: https://github.com/LAMDA-NJU/Deep-Forest
+* Documentation: https://deep-forest.readthedocs.io/
+* Package on PyPI: https://pypi.org/project/deep-forest/
 
-Please refer to the [documentation](http://www.lamda.nju.edu.cn/deep-forest/?AspxAutoDetectCookieSupport=1) for details.
-
+* * *
 
 gcForest v1.1.1 Is Here!
 ========
