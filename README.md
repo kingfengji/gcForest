@@ -1,3 +1,15 @@
+Update
+======
+
+We now have a version of Deep Forest optimized for speed and memory efficiency. You can install it using:
+
+```python
+pip install deep-forest
+```
+
+Please refer to the [documentation](http://www.lamda.nju.edu.cn/deep-forest/?AspxAutoDetectCookieSupport=1) for details.
+
+
 gcForest v1.1.1 Is Here!
 ========
 This is the official clone for the implementation of gcForest.(The University's webserver is unstable sometimes, therefore we put the official clone here at github)
