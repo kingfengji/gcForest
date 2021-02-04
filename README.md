@@ -2,18 +2,21 @@ Update (Feb 1, 2021)
 ====================
 ATTENTION!
 
-This repository will no longer be maintained, please check our new repository for Deep Forest with GREAT improvements on efficiency.
+This repository will no longer be maintained, please check our new repository for Deep Forest with GREAT improvements on efficiency.
 
 Details at:
-* Repository: https://github.com/LAMDA-NJU/Deep-Forest
-* Documentation: https://deep-forest.readthedocs.io/
-* Package on PyPI: https://pypi.org/project/deep-forest/
 
-* * *
+* Repository: https://github.com/LAMDA-NJU/Deep-Forest
+* Documentation: https://deep-forest.readthedocs.io/
+* Package on PyPI: https://pypi.org/project/deep-forest/
+
+* * *
 
 You can install the newer version of gcForest via pip
 
-```pip install deep-forest```
+```
+pip install deep-forest
+```
 
 The older version (gcForest v1.1.1) in this repo will only be served as an illustration of the algorithm.
 
