@@ -24,7 +24,7 @@ class FGPoolLayer(BaseLayer):
         super(FGPoolLayer, self).__init__(layer_config, data_cache)
         self.win_x = self.get_value("win_x", None, int, required=True)
         self.win_y = self.get_value("win_y", None, int, required=True)
-        self.pool_method = self.get_value("pool_method", "avg", basestring)
+        self.pool_method = self.get_value("pool_method", "avg", str)
 
     def fit_transform(self, train_config):
         LOGGER.info("[data][{}] bottoms={}, tops={}".format(self.name, self.bottom_names, self.top_names))
@@ -49,8 +49,8 @@ class FGPoolLayer(BaseLayer):
                 #assert w % win_x == 0
                 #nh = int(h / win_y)
                 #nw = int(w / win_x)
-                nh = (h - 1) / win_y + 1
-                nw = (w - 1) / win_x + 1
+                nh = int((h - 1) / win_y + 1)
+                nw = int((w - 1) / win_x + 1)
                 X_pool = np.empty(( n, c, nh, nw), dtype=np.float32)
                 #for k in trange(c, desc='loop channel'):
                 #    for di in trange(nh, desc='loop win_y'):
